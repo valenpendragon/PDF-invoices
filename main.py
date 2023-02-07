@@ -6,8 +6,6 @@ from pathlib import Path
 filepaths = glob.glob("Invoices/*.xlsx")
 
 for filepath in filepaths:
-    df = pd.read_excel(filepath, sheet_name="Sheet 1")
-
     pdf = FPDF(orientation="P", unit="mm", format="A4")
 
     filename = Path(filepath).stem
@@ -18,7 +16,35 @@ for filepath in filepaths:
     pdf.cell(w=50, h=8, txt=f"Invoice No. {invoice_no}", ln=1)
 
     pdf.set_font(family="Times", size=16, style="B")
-    pdf.cell(w=50, h=8, txt=f"Date: {invoice_date}")
+    pdf.cell(w=50, h=8, txt=f"Date: {invoice_date}", ln=1)
+
+    df = pd.read_excel(filepath, sheet_name="Sheet 1")
+    invoice_total = 0
+
+    # Clean up the appearance of the headers.
+    headers = df.columns
+    headers = [item.replace("_", " ").title().replace("Id", "ID") for item in headers]
+
+    # Add the headers to the pdf.
+    pdf.set_font(family="Times", size=10, style="B")
+    pdf.set_text_color(80, 80, 80)
+    pdf.set_fill_color(200, 200, 200)
+    pdf.cell(w=30, h=8, txt=headers[0], border=1, fill=True)
+    pdf.cell(w=70, h=8, txt=headers[1], border=1, fill=True)
+    pdf.cell(w=35, h=8, txt=headers[2], border=1, fill=True, align="R")
+    pdf.cell(w=30, h=8, txt=headers[3], border=1, fill=True, align="R")
+    pdf.cell(w=30, h=8, txt=headers[4], ln=1, border=1, fill=True, align="R")
+
+    # Add the data rows to the pdf.
+    for index, row in df.iterrows():
+        pdf.set_font(family="Times", size=10)
+        pdf.set_text_color(80, 80, 80)
+        pdf.cell(w=30, h=8, txt=str(row["product_id"]), border=1)
+        pdf.cell(w=70, h=8, txt=str(row["product_name"]), border=1)
+        pdf.cell(w=35, h=8, txt=str(row["amount_purchased"]), border=1, align="R")
+        pdf.cell(w=30, h=8, txt=str(row["price_per_unit"]), border=1, align="R")
+        pdf.cell(w=30, h=8, txt=str(row["total_price"]), ln=1, border=1, align="R")
+        invoice_total += row["total_price"]
 
 
 
