@@ -19,7 +19,6 @@ for filepath in filepaths:
     pdf.cell(w=50, h=8, txt=f"Date: {invoice_date}", ln=1)
 
     df = pd.read_excel(filepath, sheet_name="Sheet 1")
-    invoice_total = 0
 
     # Clean up the appearance of the headers.
     headers = df.columns
@@ -44,8 +43,21 @@ for filepath in filepaths:
         pdf.cell(w=35, h=8, txt=str(row["amount_purchased"]), border=1, align="R")
         pdf.cell(w=30, h=8, txt=str(row["price_per_unit"]), border=1, align="R")
         pdf.cell(w=30, h=8, txt=str(row["total_price"]), ln=1, border=1, align="R")
-        invoice_total += row["total_price"]
 
+    # Add the grand total lines to each invoice.
+    invoice_total = df["total_price"].sum()
+    pdf.cell(w=30, h=8, border=1)
+    pdf.cell(w=70, h=8, border=1)
+    pdf.cell(w=35, h=8, border=1)
+    pdf.cell(w=30, h=8, border=1)
+    pdf.cell(w=30, h=8, txt=str(invoice_total), ln=1, border=1, align="R")
+
+    # Add amount due statement and company logo.
+
+    pdf.ln(15)
+    pdf.set_font(family="Times", size=10, style="B")
+    pdf.set_text_color(80, 80, 80)
+    pdf.write(f"The total amount due is {invoice_total} Euros.")
 
 
     pdf.output(f"PDFs/{filename}.pdf")
