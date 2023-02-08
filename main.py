@@ -52,12 +52,14 @@ for filepath in filepaths:
     pdf.cell(w=30, h=8, border=1)
     pdf.cell(w=30, h=8, txt=str(invoice_total), ln=1, border=1, align="R")
 
-    # Add amount due statement and company logo.
-
+    # Add amount due statement,  and company logo.
     pdf.ln(15)
     pdf.set_font(family="Times", size=10, style="B")
     pdf.set_text_color(80, 80, 80)
-    pdf.write(f"The total amount due is {invoice_total} Euros.")
-
+    pdf.cell(w=30, h=8, txt=f"The total amount due is {invoice_total} Euros.", ln=1)
+    pdf.set_font(family="Times", size=10, style="B")
+    pdf.set_text_color(80, 80, 80)
+    pdf.cell(w=25, h=8, txt=f"ABC Company")
+    pdf.image("python-neon.png", w=10)
 
     pdf.output(f"PDFs/{filename}.pdf")
