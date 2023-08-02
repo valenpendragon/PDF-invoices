@@ -4,7 +4,7 @@ from fpdf import FPDF
 from pathlib import Path
 
 
-def generate(invoices_path, pdfs_path,
+def generate(invoices_path, pdfs_path, company_logo,
              product_id="product_id",
              product_name="product_name",
              amount_purchased="amount_purchased",
@@ -12,13 +12,17 @@ def generate(invoices_path, pdfs_path,
              total_price="total_price",
              currency_type="USD"):
     """
-    This function requires the directory path for the spreadsheet invoices and the destination
-    folder into which the function will print the PDF invoices. The remaining arguments are
-    optional values for the columns and content in the printed PDFs. product_id, product_name,
-    amount_purchase, and price_per_unit must match the corresponding column headings in the
-    spreadsheet invoices or the wrong data will be extracted. currency_type is used to set the
-    type of currency that will appear in the final PDF. There are default values for all
-    of these strings, as they are needed for headings and PDF content.
+    This function requires the directory path for the spreadsheet invoices, the destination
+    folder into which the function will print the PDF invoices, and the filepath to an icon
+    that will be used as a company logo in each PDF invoice. There are no default values for
+    these three arguments.
+
+    The remaining arguments are optional values for the columns and content in the printed
+    PDFs. product_id, product_name, amount_purchase, and price_per_unit must match the
+    corresponding column headings in the spreadsheet invoices or the wrong data will be
+    extracted. currency_type is used to set the type of currency that will appear in the
+    final PDF. There are default values for all of these strings, as they are needed for
+    headings and PDF content.
 
     Before column headers are used in the final PDF, underscores are converted to spaces, the
     str.title() method is applied, and 'id' is converted to 'ID' if it appears in a string.
@@ -90,6 +94,6 @@ def generate(invoices_path, pdfs_path,
         pdf.set_font(family="Times", size=10, style="B")
         pdf.set_text_color(80, 80, 80)
         pdf.cell(w=25, h=8, txt=f"ABC Company")
-        pdf.image("python-neon.png", w=10)
+        pdf.image(company_logo, w=10)
 
         pdf.output(f"{pdfs_path}/{filename}.pdf")
