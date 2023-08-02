@@ -13,9 +13,9 @@ def generate(invoices_path, pdfs_path, company_logo,
              currency_type="USD"):
     """
     This function requires the directory path for the spreadsheet invoices, the destination
-    folder into which the function will print the PDF invoices, and the filepath to an icon
-    that will be used as a company logo in each PDF invoice. There are no default values for
-    these three arguments.
+    folder into which the function will print the PDF invoices, and the relative filepath to
+    an icon that will be used as a company logo in each PDF invoice. There are no default
+    values for these three arguments.
 
     The remaining arguments are optional values for the columns and content in the printed
     PDFs. product_id, product_name, amount_purchase, and price_per_unit must match the
@@ -27,8 +27,9 @@ def generate(invoices_path, pdfs_path, company_logo,
     Before column headers are used in the final PDF, underscores are converted to spaces, the
     str.title() method is applied, and 'id' is converted to 'ID' if it appears in a string.
     Arguments:
-    :param invoices_path: str, directory path
-    :param pdfs_path: str, directory path
+    :param invoices_path: str, directory path, REQUIRED
+    :param pdfs_path: str, directory path, REQUIRED
+    :param company_logo: str, filepath to company logo icon, REQUIRED
     :param product_id: str, defaults to "product_id"
     :param product_name: str, defaults to "product_name"
     :param amount_purchased: str, defaults to "amount_purchased"
