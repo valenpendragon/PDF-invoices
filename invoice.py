@@ -4,8 +4,8 @@ from fpdf import FPDF
 from pathlib import Path
 
 
-def generate():
-    filepaths = glob.glob("Invoices/*.xlsx")
+def generate(invoices_path, pdfs_path):
+    filepaths = glob.glob(f"{invoices_path}/*.xlsx")
 
     for filepath in filepaths:
         pdf = FPDF(orientation="P", unit="mm", format="A4")
@@ -64,4 +64,4 @@ def generate():
         pdf.cell(w=25, h=8, txt=f"ABC Company")
         pdf.image("python-neon.png", w=10)
 
-        pdf.output(f"PDFs/{filename}.pdf")
+        pdf.output(f"{pdfs_path}/{filename}.pdf")
