@@ -1,5 +1,6 @@
 import pandas as pd
 import glob
+import os
 from fpdf import FPDF
 from pathlib import Path
 
@@ -97,4 +98,5 @@ def generate(invoices_path, pdfs_path, company_logo,
         pdf.cell(w=25, h=8, txt=f"ABC Company")
         pdf.image(company_logo, w=10)
 
+        os.makedev(pdfs_path)
         pdf.output(f"{pdfs_path}/{filename}.pdf")
