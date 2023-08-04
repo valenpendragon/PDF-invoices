@@ -98,6 +98,6 @@ def generate(invoices_path, pdfs_path, company_logo,
         pdf.cell(w=25, h=8, txt=f"ABC Company")
         pdf.image(company_logo, w=10)
 
-        if not os.path.exists(pdfs_path)
+        if not os.path.exists(pdfs_path):
             os.makedev(pdfs_path)
         pdf.output(f"{pdfs_path}/{filename}.pdf")
